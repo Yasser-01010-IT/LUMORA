@@ -57,6 +57,7 @@ export const LandingPage: React.FC = () => {
     const navigate = useNavigate();
     const [scrolled, setScrolled] = useState(false);
     const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 20);
@@ -192,66 +193,122 @@ export const LandingPage: React.FC = () => {
                     ))}
                 </div>
 
-                {/* CTA */}
-               <button
-    onClick={() => navigate('/app')}
-    style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '0.4rem',
+                {/* Actions container */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <button
+                        onClick={() => navigate('/app')}
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.4rem',
+                            padding: '0.55rem 1.1rem',
+                            minHeight: '36px',
+                            borderRadius: '999px',
+                            border: '1px solid rgba(255,255,255,0.75)',
+                            background: '#FFFFFF',
+                            color: '#171717',
+                            fontFamily: 'Inter, "Helvetica Neue", Arial, sans-serif',
+                            fontSize: '0.8rem',
+                            fontWeight: 650,
+                            letterSpacing: '-0.01em',
+                            cursor: 'pointer',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+                            transition: 'transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease',
+                            whiteSpace: 'nowrap',
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-1px)';
+                            e.currentTarget.style.background = '#F7F5FF';
+                            e.currentTarget.style.boxShadow = '0 5px 16px rgba(168,85,247,0.18)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.background = '#FFFFFF';
+                            e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.12)';
+                        }}
+                    >
+                        Launch App
+                        <span style={{ fontSize: '0.95rem', lineHeight: 1 }}>→</span>
+                    </button>
 
-        padding: '0.6rem 1.15rem',
-        minHeight: '38px',
-
-        borderRadius: '999px',
-        border: '1px solid rgba(255,255,255,0.75)',
-
-        background: '#FFFFFF',
-        color: '#171717',
-
-        fontFamily:
-            'Inter, "Helvetica Neue", Arial, sans-serif',
-        fontSize: '0.82rem',
-        fontWeight: 650,
-        letterSpacing: '-0.01em',
-
-        cursor: 'pointer',
-
-        boxShadow:
-            '0 2px 8px rgba(0,0,0,0.12)',
-
-        transition:
-            'transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease',
-    }}
-    onMouseEnter={(e) => {
-        e.currentTarget.style.transform =
-            'translateY(-1px)';
-        e.currentTarget.style.background =
-            '#F7F5FF';
-        e.currentTarget.style.boxShadow =
-            '0 5px 16px rgba(168,85,247,0.18)';
-    }}
-    onMouseLeave={(e) => {
-        e.currentTarget.style.transform =
-            'translateY(0)';
-        e.currentTarget.style.background =
-            '#FFFFFF';
-        e.currentTarget.style.boxShadow =
-            '0 2px 8px rgba(0,0,0,0.12)';
-    }}
->
-    Launch App
-    <span
-        style={{
-            fontSize: '0.95rem',
-            lineHeight: 1,
-        }}
-    >
-        →
-    </span>
-</button>
+                    {/* Mobile Hamburger Toggle Button */}
+                    <button
+                        className="mobile-menu-toggle"
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        aria-label="Toggle Mobile Menu"
+                        style={{
+                            display: 'none',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '36px',
+                            height: '36px',
+                            borderRadius: '10px',
+                            border: '1px solid rgba(255,255,255,0.18)',
+                            background: 'rgba(255,255,255,0.06)',
+                            color: '#FFFFFF',
+                            fontSize: '1.2rem',
+                            cursor: 'pointer',
+                        }}
+                    >
+                        {mobileMenuOpen ? '✕' : '☰'}
+                    </button>
+                </div>
             </nav>
+
+            {/* Mobile Dropdown Menu Drawer */}
+            {mobileMenuOpen && (
+                <div
+                    className="mobile-dropdown-menu"
+                    style={{
+                        position: 'fixed',
+                        top: '60px',
+                        left: 0,
+                        right: 0,
+                        zIndex: 99,
+                        background: 'rgba(8, 8, 15, 0.96)',
+                        backdropFilter: 'blur(24px)',
+                        WebkitBackdropFilter: 'blur(24px)',
+                        borderBottom: '1px solid rgba(168, 85, 247, 0.25)',
+                        padding: '1.25rem 1.5rem',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '1rem',
+                        boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+                        animation: 'fadeIn 0.2s ease',
+                    }}
+                >
+                    {[
+                        { name: 'Features', id: 'features' },
+                        { name: 'How it Works', id: 'how-it-works' },
+                        { name: 'Pricing', id: 'pricing' }
+                    ].map((item) => (
+                        <a
+                            key={item.name}
+                            href={`#${item.id}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setMobileMenuOpen(false);
+                                document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+                            }}
+                            style={{
+                                color: '#FFFFFF',
+                                fontSize: '1rem',
+                                fontWeight: 600,
+                                textDecoration: 'none',
+                                padding: '0.6rem 0',
+                                borderBottom: '1px solid rgba(255,255,255,0.08)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            {item.name}
+                            <span style={{ color: '#C084FC', fontSize: '0.9rem' }}>→</span>
+                        </a>
+                    ))}
+                </div>
+            )}
 
             {/* ───── HERO ───── */}
             <section style={{ position: 'relative', height: '100vh', minHeight: 680, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
@@ -5914,10 +5971,10 @@ export const LandingPage: React.FC = () => {
             height: 60px !important;
           }
           .nav-links {
-            gap: 0.75rem !important;
+            display: none !important;
           }
-          .nav-links a {
-            font-size: 0.78rem !important;
+          .mobile-menu-toggle {
+            display: flex !important;
           }
 
           /* ---- HERO ---- */
@@ -5974,14 +6031,8 @@ export const LandingPage: React.FC = () => {
         @media (max-width: 480px) {
           /* Tighter padding for nav */
           nav {
-            padding: 0 0.5rem !important;
-            height: 56px !important;
-          }
-          .nav-links {
-            gap: 0.45rem !important;
-          }
-          .nav-links a {
-            font-size: 0.72rem !important;
+            padding: 0 0.85rem !important;
+            height: 58px !important;
           }
 
           /* Hero title even smaller */
