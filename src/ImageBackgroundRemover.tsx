@@ -55,85 +55,69 @@ const TABS: {
   shortLabel: string;
   icon: React.ReactNode;
   desc: string;
-  color: string;
-  badge?: string;
 }[] = [
   {
     id: 'remover',
     label: 'Background Removal',
-    shortLabel: 'Remove BG',
-    icon: <Layers size={17} strokeWidth={1.8} />,
-    desc: 'Remove backgrounds with local AI',
-    color: '#8B5CF6',
+    shortLabel: 'Background',
+    icon: <Layers size={16} strokeWidth={1.8} />,
+    desc: 'High-precision subject segmentation',
   },
   {
     id: 'text',
-    label: 'Text & Typography',
-    shortLabel: 'Add Text AI',
-    icon: <Type size={17} strokeWidth={1.8} />,
-    desc: 'Photoshop quality text overlays & fonts',
-    color: '#3b82f6',
-    badge: 'NEW',
+    label: 'Typography & Layout',
+    shortLabel: 'Typography',
+    icon: <Type size={16} strokeWidth={1.8} />,
+    desc: 'Vector overlays & custom fonts',
   },
   {
     id: 'vectorizer',
-    label: 'SVG Vectorize',
-    shortLabel: 'Vectorize SVG',
-    icon: <Sparkles size={17} strokeWidth={1.8} />,
-    desc: 'Convert images into scalable vectors',
-    color: '#6366F1',
+    label: 'SVG Vectorizer',
+    shortLabel: 'Vectorizer',
+    icon: <Sparkles size={16} strokeWidth={1.8} />,
+    desc: 'Raster-to-vector curve extraction',
   },
   {
     id: 'ocr',
     label: 'OCR Scanner',
-    shortLabel: 'OCR Text',
-    icon: <FileText size={17} strokeWidth={1.8} />,
-    desc: 'Extract text from images',
-    color: '#7C3AED',
+    shortLabel: 'OCR Scan',
+    icon: <FileText size={16} strokeWidth={1.8} />,
+    desc: 'Document & character recognition',
   },
   {
     id: 'pdf',
-    label: 'Image → PDF',
-    shortLabel: 'Image to PDF',
-    icon: <FileSpreadsheet size={17} strokeWidth={1.8} />,
-    desc: 'Turn images into polished documents',
-    color: '#6D5CE7',
+    label: 'PDF Export Studio',
+    shortLabel: 'PDF Export',
+    icon: <FileSpreadsheet size={16} strokeWidth={1.8} />,
+    desc: 'Multi-page document generator',
   },
   {
     id: 'huggingface',
-    label: 'AI Models (HF)',
-    shortLabel: 'HF Models',
-    icon: <Cpu size={17} strokeWidth={1.8} />,
-    desc: 'Free open source AI models on HF',
-    color: '#8B5CF6',
-    badge: 'FREE',
+    label: 'Vision ML Models',
+    shortLabel: 'ML Models',
+    icon: <Cpu size={16} strokeWidth={1.8} />,
+    desc: 'Classification & depth estimation',
   },
   {
     id: 'batch',
-    label: 'Batch Mode Studio',
+    label: 'Batch Engine',
     shortLabel: 'Batch Mode',
-    icon: <Layers size={17} strokeWidth={1.8} />,
-    desc: 'Bulk process multiple images',
-    color: '#10b981',
-    badge: 'FREE',
+    icon: <Layers size={16} strokeWidth={1.8} />,
+    desc: 'Automated multi-asset processing',
   },
   {
     id: 'eraser',
-    label: 'Magic Eraser AI',
-    shortLabel: 'Magic Eraser',
-    icon: <Wand2 size={17} strokeWidth={1.8} />,
-    desc: 'Erase unwanted objects with AI',
-    color: '#ec4899',
-    badge: 'FREE',
+    label: 'Object Eraser',
+    shortLabel: 'Eraser Tool',
+    icon: <Wand2 size={16} strokeWidth={1.8} />,
+    desc: 'Precision element removal',
   },
   {
     id: 'studio',
-    label: 'AI Studio Backdrops',
-    shortLabel: 'AI Backdrops',
-    icon: <Sliders size={17} strokeWidth={1.8} />,
-    desc: 'Studio product backdrops & lighting',
-    color: '#f59e0b',
-    badge: 'FREE',
+    label: 'Studio Lighting',
+    shortLabel: 'Backdrops',
+    icon: <Sliders size={16} strokeWidth={1.8} />,
+    desc: '3D lighting & backdrop compositing',
   },
 ];
 
@@ -486,6 +470,11 @@ const ImageBackgroundRemover: React.FC = () => {
               Lumora
             </span>
           </div>
+
+          <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.9rem' }}>/</span>
+          <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', fontWeight: 500, letterSpacing: '-0.01em' }}>
+            {TABS.find(t => t.id === activeTab)?.label}
+          </span>
         </div>
       </header>
 
@@ -505,7 +494,7 @@ const ImageBackgroundRemover: React.FC = () => {
           className="pm-sidebar"
           style={{
             width: 230,
-            padding: '1.5rem 0.9rem',
+            padding: '1.25rem 0.75rem',
             borderRight: '1px solid rgba(255,255,255,0.06)',
             position: 'sticky',
             top: 64,
@@ -515,16 +504,16 @@ const ImageBackgroundRemover: React.FC = () => {
             background: '#0B0B0F',
           }}
         >
-          <div className="pm-sidebar-header" style={{ padding: '0.5rem 0.65rem 1rem' }}>
-            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.27)', marginBottom: 7 }}>
-              AI Studio Workspace
+          <div className="pm-sidebar-header" style={{ padding: '0.4rem 0.65rem 0.85rem' }}>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 4 }}>
+              Studio Workspace
             </div>
-            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.42)', lineHeight: 1.5 }}>
-              Outils IA professionnels & Modèles Hugging Face.
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', lineHeight: 1.4 }}>
+              Professional creative & computer vision tools.
             </div>
           </div>
 
-          <div className="pm-sidebar-tools" style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div className="pm-sidebar-tools" style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             {TABS.map((tab) => {
               const active = activeTab === tab.id;
               return (
@@ -534,11 +523,11 @@ const ImageBackgroundRemover: React.FC = () => {
                   onClick={() => setActiveTab(tab.id)}
                   style={{
                     width: '100%',
-                    borderRadius: 10,
-                    border: active ? '1px solid rgba(139,92,246,0.18)' : '1px solid transparent',
-                    background: active ? 'rgba(139,92,246,0.105)' : 'transparent',
-                    color: active ? '#fff' : 'rgba(255,255,255,0.47)',
-                    padding: '0.7rem 0.65rem',
+                    borderRadius: 8,
+                    border: active ? '1px solid rgba(99,102,241,0.25)' : '1px solid transparent',
+                    background: active ? 'rgba(99,102,241,0.12)' : 'transparent',
+                    color: active ? '#FFFFFF' : 'rgba(255,255,255,0.55)',
+                    padding: '0.6rem 0.65rem',
                     display: 'flex',
                     alignItems: 'flex-start',
                     gap: 10,
@@ -548,30 +537,25 @@ const ImageBackgroundRemover: React.FC = () => {
                 >
                   <span
                     style={{
-                      width: 29,
-                      height: 29,
+                      width: 26,
+                      height: 26,
                       flexShrink: 0,
-                      borderRadius: 8,
+                      borderRadius: 6,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      background: active ? `${tab.color}18` : 'rgba(255,255,255,0.035)',
-                      color: active ? tab.color : 'rgba(255,255,255,0.42)',
+                      background: active ? 'rgba(99,102,241,0.22)' : 'rgba(255,255,255,0.035)',
+                      color: active ? '#818CF8' : 'rgba(255,255,255,0.45)',
                     }}
                   >
                     {tab.icon}
                   </span>
 
                   <span className="pm-sidebar-label" style={{ minWidth: 0, paddingTop: 1, flex: 1 }}>
-                    <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12, fontWeight: active ? 600 : 500, lineHeight: 1.35 }}>
+                    <span style={{ display: 'block', fontSize: 12, fontWeight: active ? 600 : 500, lineHeight: 1.35 }}>
                       {tab.shortLabel}
-                      {tab.badge && (
-                        <span style={{ fontSize: 8, padding: '0.1rem 0.35rem', borderRadius: '4px', background: tab.badge === 'NEW' ? '#3b82f6' : 'rgba(16, 185, 129, 0.15)', color: tab.badge === 'NEW' ? 'white' : '#10b981', fontWeight: 700 }}>
-                          {tab.badge}
-                        </span>
-                      )}
                     </span>
-                    <span className="pm-sidebar-description" style={{ display: 'block', fontSize: 10, lineHeight: 1.35, marginTop: 3, color: active ? 'rgba(255,255,255,0.42)' : 'rgba(255,255,255,0.25)' }}>
+                    <span className="pm-sidebar-description" style={{ display: 'block', fontSize: 10, lineHeight: 1.35, marginTop: 2, color: active ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.28)' }}>
                       {tab.desc}
                     </span>
                   </span>
@@ -581,13 +565,13 @@ const ImageBackgroundRemover: React.FC = () => {
           </div>
 
           {/* Privacy card */}
-          <div className="pm-sidebar-header" style={{ marginTop: 24, padding: '0.8rem 0.75rem', borderRadius: 11, border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.025)' }}>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 7 }}>
-              <ShieldCheck size={14} color="#A78BFA" />
-              <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.65)' }}>100% Confidentiel</span>
+          <div className="pm-sidebar-header" style={{ marginTop: 20, padding: '0.75rem 0.75rem', borderRadius: 9, border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 5 }}>
+              <ShieldCheck size={13} color="#818CF8" />
+              <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.7)' }}>Client-Side Private</span>
             </div>
-            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', lineHeight: 1.4 }}>
-              Vos photos restent privées dans votre navigateur.
+            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.32)', lineHeight: 1.4 }}>
+              All image processing runs 100% locally in your browser memory.
             </div>
           </div>
         </aside>
@@ -605,10 +589,10 @@ const ImageBackgroundRemover: React.FC = () => {
                   onDragLeave={handleDragLeave}
                   onClick={() => fileInputRef.current?.click()}
                   style={{
-                    minHeight: 'clamp(390px, 55vh, 510px)',
-                    border: '1px dashed rgba(255,255,255,0.14)',
-                    borderRadius: 18,
-                    background: 'rgba(255,255,255,0.022)',
+                    minHeight: 'clamp(380px, 52vh, 480px)',
+                    border: '1px dashed rgba(255,255,255,0.16)',
+                    borderRadius: 16,
+                    background: 'rgba(255,255,255,0.015)',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -619,25 +603,25 @@ const ImageBackgroundRemover: React.FC = () => {
                     overflow: 'hidden',
                   }}
                 >
-                  <div style={{ position: 'relative', width: 68, height: 68, borderRadius: 17, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(139,92,246,0.10)', border: '1px solid rgba(139,92,246,0.20)', color: '#A78BFA', marginBottom: 22 }}>
-                    <Upload size={28} strokeWidth={1.6} />
+                  <div style={{ position: 'relative', width: 60, height: 60, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.8)', marginBottom: 20 }}>
+                    <Upload size={24} strokeWidth={1.75} />
                   </div>
-                  <h2 style={{ position: 'relative', margin: 0, fontSize: 20, fontWeight: 600, color: '#F5F5F7' }}>
-                    Importer une photo pour détourer
+                  <h2 style={{ position: 'relative', margin: 0, fontSize: 19, fontWeight: 600, color: '#F5F5F7', letterSpacing: '-0.02em' }}>
+                    Upload Image Asset
                   </h2>
-                  <p style={{ position: 'relative', margin: '0.65rem 0 1.35rem', fontSize: 13, color: 'rgba(255,255,255,0.38)' }}>
-                    Cliquez ou glissez-déposez une image ici
+                  <p style={{ position: 'relative', margin: '0.5rem 0 1.25rem', fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>
+                    Drag & drop file here or click to browse files
                   </p>
-                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 7, flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', justifyContent: 'center' }}>
                     {['PNG', 'JPG', 'WebP', 'HEIC'].map((format) => (
-                      <span key={format} style={{ padding: '0.32rem 0.55rem', borderRadius: 6, background: 'rgba(255,255,255,0.045)', border: '1px solid rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.38)', fontSize: 10, fontWeight: 600 }}>
+                      <span key={format} style={{ padding: '0.25rem 0.5rem', borderRadius: 5, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.4)', fontSize: 10, fontWeight: 600, letterSpacing: '0.04em' }}>
                         {format}
                       </span>
                     ))}
                   </div>
 
                   {toastMsg && (
-                    <div style={{ background: 'rgba(16, 185, 129, 0.15)', border: '1px solid #10b981', color: '#34d399', padding: '0.75rem 1rem', borderRadius: '0.5rem', marginTop: '1.25rem', fontSize: '0.85rem' }}>
+                    <div style={{ background: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.4)', color: '#34d399', padding: '0.65rem 1rem', borderRadius: '0.5rem', marginTop: '1.25rem', fontSize: '0.85rem' }}>
                       {toastMsg}
                     </div>
                   )}
@@ -645,29 +629,29 @@ const ImageBackgroundRemover: React.FC = () => {
               ) : (
                 <div>
                   {/* Results preview component */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
                     {/* Original */}
-                    <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: '1rem', padding: '1rem', border: '1px solid rgba(255,255,255,0.06)' }}>
-                      <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'rgba(255,255,255,0.6)', display: 'block', marginBottom: '0.75rem' }}>Original Image</span>
-                      <img src={originalImage!} alt="Original" style={{ width: '100%', height: 'auto', borderRadius: '0.5rem', display: 'block' }} />
+                    <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: '12px', padding: '1rem', border: '1px solid rgba(255,255,255,0.06)' }}>
+                      <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: '0.75rem', letterSpacing: '0.02em' }}>Original Source</span>
+                      <img src={originalImage!} alt="Original" style={{ width: '100%', height: 'auto', borderRadius: '8px', display: 'block' }} />
                     </div>
 
                     {/* Result */}
-                    <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: '1rem', padding: '1rem', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: '12px', padding: '1rem', border: '1px solid rgba(255,255,255,0.06)' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#10b981' }}>Résultat Sans Fond</span>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#34D399', letterSpacing: '0.02em' }}>Processed Segment</span>
                         <div style={{ display: 'flex', gap: '0.25rem' }}>
-                          <button onClick={() => setPreviewBg('checkerboard')} style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', border: 'none', background: previewBg === 'checkerboard' ? '#8B5CF6' : 'rgba(255,255,255,0.1)', color: 'white', fontSize: '0.7rem', cursor: 'pointer' }}>Damier</button>
-                          <button onClick={() => setPreviewBg('dark')} style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', border: 'none', background: previewBg === 'dark' ? '#8B5CF6' : 'rgba(255,255,255,0.1)', color: 'white', fontSize: '0.7rem', cursor: 'pointer' }}>Noir</button>
-                          <button onClick={() => setPreviewBg('white')} style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', border: 'none', background: previewBg === 'white' ? '#8B5CF6' : 'rgba(255,255,255,0.1)', color: 'white', fontSize: '0.7rem', cursor: 'pointer' }}>Blanc</button>
+                          <button onClick={() => setPreviewBg('checkerboard')} style={{ padding: '0.25rem 0.55rem', borderRadius: '5px', border: 'none', background: previewBg === 'checkerboard' ? '#6366F1' : 'rgba(255,255,255,0.08)', color: 'white', fontSize: '0.72rem', fontWeight: 500, cursor: 'pointer' }}>Grid</button>
+                          <button onClick={() => setPreviewBg('dark')} style={{ padding: '0.25rem 0.55rem', borderRadius: '5px', border: 'none', background: previewBg === 'dark' ? '#6366F1' : 'rgba(255,255,255,0.08)', color: 'white', fontSize: '0.72rem', fontWeight: 500, cursor: 'pointer' }}>Dark</button>
+                          <button onClick={() => setPreviewBg('white')} style={{ padding: '0.25rem 0.55rem', borderRadius: '5px', border: 'none', background: previewBg === 'white' ? '#6366F1' : 'rgba(255,255,255,0.08)', color: 'white', fontSize: '0.72rem', fontWeight: 500, cursor: 'pointer' }}>Light</button>
                         </div>
                       </div>
 
-                      <div style={{ ...getPreviewStyle(), borderRadius: '0.5rem', overflow: 'hidden', minHeight: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ ...getPreviewStyle(), borderRadius: '8px', overflow: 'hidden', minHeight: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {isProcessing ? (
-                          <div style={{ textAlign: 'center', color: '#A78BFA' }}>
-                            <RefreshCw size={24} style={{ animation: 'spin 1s linear infinite', marginBottom: '0.5rem' }} />
-                            <div>Traitement IA {progress}%...</div>
+                          <div style={{ textAlign: 'center', color: '#818CF8' }}>
+                            <RefreshCw size={22} style={{ animation: 'spin 1s linear infinite', marginBottom: '0.5rem' }} />
+                            <div style={{ fontSize: '0.85rem', fontWeight: 500 }}>Processing segmentation {progress}%</div>
                           </div>
                         ) : (
                           <img src={processedImage!} alt="No bg result" style={{ width: '100%', height: 'auto', display: 'block' }} />
@@ -677,21 +661,21 @@ const ImageBackgroundRemover: React.FC = () => {
                   </div>
 
                   {toastMsg && (
-                    <div style={{ background: 'rgba(16, 185, 129, 0.15)', border: '1px solid #10b981', color: '#34d399', padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem', fontSize: '0.85rem', textAlign: 'center' }}>
+                    <div style={{ background: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.4)', color: '#34d399', padding: '0.65rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem', fontSize: '0.85rem', textAlign: 'center' }}>
                       {toastMsg}
                     </div>
                   )}
 
                   {/* Actions buttons */}
                   <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                    <button onClick={reset} style={{ padding: '0.65rem 1.25rem', borderRadius: '0.5rem', border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: 'white', fontWeight: 600, fontSize: '0.875rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <RefreshCw size={16} /> Nouvelle Image
+                    <button onClick={reset} style={{ padding: '0.6rem 1.15rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.03)', color: '#F5F5F7', fontWeight: 550, fontSize: '0.825rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                      <RefreshCw size={15} /> New Asset
                     </button>
-                    <button onClick={downloadTransparentImage} style={{ padding: '0.65rem 1.25rem', borderRadius: '0.5rem', border: 'none', background: '#8B5CF6', color: 'white', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <Download size={16} /> Télécharger PNG HD
+                    <button onClick={downloadTransparentImage} style={{ padding: '0.6rem 1.25rem', borderRadius: '8px', border: 'none', background: '#FFFFFF', color: '#09090B', fontWeight: 650, fontSize: '0.825rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.45rem', boxShadow: '0 2px 8px rgba(0,0,0,0.18)' }}>
+                      <Download size={15} /> Export PNG HD
                     </button>
-                    <button onClick={download4KUltraHD} style={{ padding: '0.65rem 1.25rem', borderRadius: '0.5rem', border: 'none', background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: 'white', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <Crown size={16} /> Exportation 4K Ultra HD (Gratuit)
+                    <button onClick={download4KUltraHD} style={{ padding: '0.6rem 1.25rem', borderRadius: '8px', border: '1px solid rgba(99,102,241,0.3)', background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)', color: 'white', fontWeight: 650, fontSize: '0.825rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.45rem', boxShadow: '0 4px 14px rgba(99,102,241,0.25)' }}>
+                      <Crown size={15} /> Export 4K Ultra HD
                     </button>
                   </div>
                 </div>
